@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useLanguage } from "@/lib/language-context";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/GlassCard";
-import { Shield, Droplet, TriangleAlert, Fingerprint, Gavel, User, Building2, FlaskConical, ChevronRight, ArrowLeft, ShieldCheck, Lock } from "lucide-react";
+import { 
+  Shield, Droplet, TriangleAlert, Menu, Globe, ChevronRight, ArrowLeft, 
+  ShieldCheck, Lock, Network, Bell
+} from "lucide-react";
 import { useLocation } from "wouter";
 
 type Step = "gateway" | "roles" | "abha-verify";
@@ -10,7 +13,6 @@ type Step = "gateway" | "roles" | "abha-verify";
 export default function GatewayPage() {
   const { language, setLanguage, t } = useLanguage();
   const [showModal, setShowModal] = useState(true);
-  const [langSelected, setLangSelected] = useState(false);
   const [action, setAction] = useState<"login" | "register" | null>(null);
   const [step, setStep] = useState<Step>("gateway");
   const [abhaId, setAbhaId] = useState("");
@@ -49,7 +51,7 @@ export default function GatewayPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-[100dvh] flex flex-col items-center p-4 relative overflow-hidden">
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -72,7 +74,6 @@ export default function GatewayPage() {
                   <h2 className="text-lg font-bold text-white">{t("noticeTitle")}</h2>
                   <p className="text-sm text-slate-300 text-left leading-relaxed">{t("noticeBody")}</p>
                   <button
-                    data-testid="button-notice-understand"
                     onClick={() => setShowModal(false)}
                     className="mt-2 w-full py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs tracking-wider uppercase hover:from-blue-500 hover:to-indigo-500 transition-colors cursor-pointer"
                   >
@@ -85,6 +86,27 @@ export default function GatewayPage() {
         )}
       </AnimatePresence>
 
+      <div className="w-full max-w-sm flex items-center justify-between pt-2 pb-4">
+        <button className="text-slate-400 hover:text-white transition-colors cursor-pointer">
+          <Menu className="w-6 h-6" />
+        </button>
+        <div className="flex flex-col items-center">
+          <div className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4 text-red-500" />
+            <Droplet className="w-3 h-3 text-white -ml-3 mt-1 fill-white" />
+            <span className="text-white font-bold text-sm tracking-wide">RAKT KAVACH</span>
+          </div>
+          <span className="text-slate-400 text-[10px]">One Nation • One Blood Grid</span>
+        </div>
+        <button 
+          onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+          className="flex items-center gap-1.5 border border-white/20 rounded-full px-2 py-1 text-white hover:bg-white/10 transition-colors cursor-pointer"
+        >
+          <Globe className="w-3.5 h-3.5" />
+          <span className="text-[10px] font-bold uppercase">{language === 'en' ? 'EN' : 'HI'}</span>
+        </button>
+      </div>
+
       <AnimatePresence mode="wait">
         {step === "abha-verify" ? (
           <motion.div
@@ -92,10 +114,9 @@ export default function GatewayPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="w-full max-w-sm flex flex-col gap-5 relative z-10 py-8"
+            className="w-full max-w-sm flex flex-col gap-5 relative z-10 py-4 flex-1"
           >
             <button
-              data-testid="button-back-from-abha"
               onClick={() => { setStep("roles"); setOtpSent(false); setOtp(""); setAbhaId(""); setVerifying(false); }}
               className="flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition-colors w-fit cursor-pointer"
             >
@@ -104,7 +125,7 @@ export default function GatewayPage() {
             </button>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#00D2FF]/10 flex items-center justify-center text-[#00D2FF] shrink-0 border border-[#00D2FF]/20">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
@@ -117,12 +138,11 @@ export default function GatewayPage() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">{t("abhaIdLabel")}</label>
                 <input
-                  data-testid="input-abha-id"
                   type="text"
                   value={abhaId}
                   onChange={(e) => setAbhaId(formatAbhaId(e.target.value))}
                   placeholder={t("abhaIdPlaceholder")}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all font-mono tracking-widest"
+                  className="w-full bg-[#050f23] border border-[#00D2FF]/30 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#00D2FF] transition-all font-mono tracking-widest"
                   maxLength={19}
                   disabled={otpSent}
                 />
@@ -130,10 +150,9 @@ export default function GatewayPage() {
 
               {!otpSent ? (
                 <button
-                  data-testid="button-send-otp"
                   onClick={handleSendOtp}
                   disabled={abhaId.replace(/-/g, "").length < 14}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs tracking-wider uppercase hover:from-blue-500 hover:to-indigo-500 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  className="w-full py-3 rounded-lg btn-red-solid text-white font-bold text-xs tracking-wider uppercase hover:opacity-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {t("sendOtp")}
                 </button>
@@ -152,22 +171,20 @@ export default function GatewayPage() {
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">{t("otpLabel")}</label>
                       <input
-                        data-testid="input-otp"
                         type="text"
                         inputMode="numeric"
                         value={otp}
                         onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                         placeholder={t("otpPlaceholder")}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/8 transition-all font-mono tracking-[0.5em] text-center"
+                        className="w-full bg-[#050f23] border border-emerald-500/30 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all font-mono tracking-[0.5em] text-center"
                         maxLength={6}
                       />
                     </div>
 
                     <button
-                      data-testid="button-verify-otp"
                       onClick={handleVerify}
                       disabled={otp.length < 4 || verifying}
-                      className="w-full py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs tracking-wider uppercase hover:from-emerald-500 hover:to-teal-500 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs tracking-wider uppercase hover:opacity-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
                     >
                       {verifying ? (
                         <>
@@ -184,8 +201,8 @@ export default function GatewayPage() {
               )}
             </GlassCard>
 
-            <div className="flex items-center justify-center gap-2 text-[10px] text-slate-600 font-medium">
-              <Lock className="w-3 h-3" />
+            <div className="flex items-center justify-center gap-2 text-[10px] text-slate-500 font-medium mt-auto">
+              <Lock className="w-3 h-3 text-[#00D2FF]" />
               {t("abhaSecureNote")}
             </div>
           </motion.div>
@@ -195,147 +212,151 @@ export default function GatewayPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="w-full max-w-sm flex flex-col gap-6 relative z-10 py-8"
+            className="w-full max-w-sm flex flex-col gap-4 relative z-10 py-4 flex-1"
           >
             <button
-              data-testid="button-back-from-roles"
               onClick={() => setStep("gateway")}
-              className="flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition-colors w-fit cursor-pointer"
+              className="flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition-colors w-fit cursor-pointer mb-2"
             >
               <ArrowLeft className="w-4 h-4" />
               {t("back")}
             </button>
 
             <div>
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-xl font-bold text-white uppercase tracking-wide">
                 {action === "login" ? t("loginTitle") : t("registerTitle")}
               </h2>
-              <p className="text-slate-400 text-sm mt-1">{t("languageSubtext")}</p>
+              <p className="text-[#00D2FF] text-xs mt-1">Select your access node</p>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <RoleCard
-                icon={<User className="w-5 h-5" />}
-                title={t("roleDonor")}
-                desc={t("roleDonorDesc")}
-                color="red"
-                onClick={() => handleRoleSelect("/donor")}
-              />
-              <RoleCard
-                icon={<Building2 className="w-5 h-5" />}
-                title={t("roleHospital")}
-                desc={t("roleHospitalDesc")}
-                color="blue"
-                onClick={() => handleRoleSelect("/hospital")}
-              />
-              <RoleCard
-                icon={<FlaskConical className="w-5 h-5" />}
-                title={t("roleLab")}
-                desc={t("roleLabDesc")}
-                color="amber"
-                onClick={() => handleRoleSelect("/lab")}
-              />
-              <RoleCard
-                icon={<Shield className="w-5 h-5" />}
-                title={t("roleAuthority")}
-                desc={t("roleAuthorityDesc")}
-                color="purple"
-                onClick={() => handleRoleSelect("/authority")}
-              />
+            <div className="flex flex-col gap-3 mt-4">
+              <RoleCard title={t("roleDonor")} desc={t("roleDonorDesc")} onClick={() => handleRoleSelect("/donor")} />
+              <RoleCard title={t("roleHospital")} desc={t("roleHospitalDesc")} onClick={() => handleRoleSelect("/hospital")} />
+              <RoleCard title={t("roleLab")} desc={t("roleLabDesc")} onClick={() => handleRoleSelect("/lab")} />
+              <RoleCard title={t("roleAuthority")} desc={t("roleAuthorityDesc")} onClick={() => handleRoleSelect("/authority")} />
             </div>
           </motion.div>
         ) : (
           <motion.div
             key="gateway"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col items-center gap-8 relative z-10 py-8"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            className="w-full max-w-sm flex flex-col flex-1 relative z-10"
           >
-            <div className="flex gap-3">
-              <span className="px-2.5 py-1 text-[10px] font-bold text-blue-400 border border-blue-500/30 bg-blue-500/10 rounded tracking-widest">{t("abdmReady")}</span>
-              <span className="px-2.5 py-1 text-[10px] font-bold text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 rounded tracking-widest">{t("abhaLinked")}</span>
+            <div className="flex-1 flex flex-col items-center justify-center min-h-[320px] relative w-full my-4">
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[180px] h-[180px] rounded-full border border-[#00D2FF]/20 animate-pulse-ring absolute"></div>
+                <div className="w-[240px] h-[240px] rounded-full border border-[#00D2FF]/10 animate-pulse-ring absolute" style={{ animationDelay: '1s' }}></div>
+              </div>
+              
+              <div className="relative w-[220px] h-[250px] flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00D2FF]/20 to-[#FF1E27]/20 blur-xl rounded-full"></div>
+                <div 
+                  className="relative z-10 w-[180px] h-[210px] cyber-card overflow-hidden flex items-center justify-center"
+                  style={{
+                    clipPath: "polygon(50% 0%, 100% 15%, 100% 70%, 50% 100%, 0% 70%, 0% 15%)",
+                    background: "linear-gradient(135deg, rgba(0,210,255,0.1) 0%, rgba(5,15,35,0.9) 50%, rgba(255,30,39,0.1) 100%)",
+                    border: "none"
+                  }}
+                >
+                  <div className="absolute inset-0" style={{ 
+                    boxShadow: "inset 0 0 20px rgba(0,210,255,0.5), inset 0 0 40px rgba(255,30,39,0.5)" 
+                  }}></div>
+                  <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-gradient-to-r from-[#00D2FF]/20 to-transparent"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-[#FF1E27]/20 to-transparent"></div>
+                  
+                  <div className="relative flex flex-col items-center justify-center h-full w-full">
+                    <Droplet className="w-16 h-16 text-[#FF1E27] fill-[#FF1E27] logo-glow absolute" />
+                    <svg className="w-24 h-24 absolute text-white z-20" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M 0 50 L 25 50 L 35 20 L 50 80 L 65 50 L 100 50" className="animate-heartbeat" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="absolute -top-4 -left-4 text-[#00D2FF] text-[10px] font-bold tracking-widest flex items-center gap-1">
+                  DONOR <div className="w-8 h-[1px] border-b border-dashed border-[#00D2FF]/50"></div>
+                </div>
+                <div className="absolute -top-4 -right-4 text-[#00D2FF] text-[10px] font-bold tracking-widest flex items-center gap-1">
+                  <div className="w-8 h-[1px] border-b border-dashed border-[#00D2FF]/50"></div> HOSPITAL
+                </div>
+                <div className="absolute -bottom-4 -left-4 text-[#00D2FF] text-[10px] font-bold tracking-widest flex items-center gap-1">
+                  LAB <div className="w-8 h-[1px] border-b border-dashed border-[#00D2FF]/50"></div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 text-[#00D2FF] text-[10px] font-bold tracking-widest flex items-center gap-1">
+                  <div className="w-8 h-[1px] border-b border-dashed border-[#00D2FF]/50"></div> CLINIC
+                </div>
+              </div>
+              
+              <div className="w-8 h-8 rounded-full bg-[#00D2FF]/20 animate-pulse absolute -bottom-4 blur-md"></div>
             </div>
 
-            <div className="flex flex-col items-center gap-4 mt-4">
-              <div className="relative w-28 h-28 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border border-dashed border-red-500/50 animate-spin-slow"></div>
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600 to-rose-500 logo-glow flex items-center justify-center relative overflow-hidden">
-                  <Shield className="w-12 h-12 text-red-900/40 absolute" />
-                  <Droplet className="w-8 h-8 text-white relative z-10 fill-white" />
-                </div>
-              </div>
-              <div className="text-center">
-                <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight">
-                  {t("appName")}
-                </h1>
-                <p className="text-[10px] text-red-400 uppercase tracking-[0.3em] font-bold mt-2">
-                  {t("tagline")}
-                </p>
+            <div className="text-center mt-2 mb-6">
+              <h1 className="text-4xl font-black tracking-tight mb-2">
+                <span className="text-[#FF1E27]">RAKT</span> <span className="text-white">KAVACH</span>
+              </h1>
+              <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold">
+                NATIONAL BLOOD & HEALTH NETWORK
+              </p>
+              <div className="mt-4">
+                <p className="text-[#FF1E27] font-bold text-sm mb-1">रक्तदान • जीवनदान • राष्ट्रदान</p>
+                <p className="text-slate-400 text-xs">Donate Blood • Save Lives • Strengthen Nation</p>
               </div>
             </div>
 
-            <GlassCard className="w-full mt-4 flex flex-col gap-4">
-              <div className="text-center mb-2">
-                <h3 className="text-sm font-semibold text-white">{t("chooseLanguage")}</h3>
-                <p className="text-xs text-slate-400 mt-1">{t("languageSubtext")}</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  data-testid="button-lang-hindi"
-                  onClick={() => { setLanguage("hi"); setLangSelected(true); }}
-                  className={`py-3 rounded-lg text-sm font-medium border transition-colors cursor-pointer ${language === "hi" ? "bg-white/10 border-white/20 text-white" : "bg-white/5 border-transparent text-slate-300 hover:bg-white/10"}`}
-                >
-                  🇮🇳 हिन्दी
-                </button>
-                <button
-                  data-testid="button-lang-english"
-                  onClick={() => { setLanguage("en"); setLangSelected(true); }}
-                  className={`py-3 rounded-lg text-sm font-medium border transition-colors cursor-pointer ${language === "en" ? "bg-white/10 border-white/20 text-white" : "bg-white/5 border-transparent text-slate-300 hover:bg-white/10"}`}
-                >
-                  🇬🇧 English
-                </button>
-              </div>
-
-              <AnimatePresence>
-                {langSelected && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                    animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                    className="flex flex-col gap-3 pt-4 border-t border-white/10"
-                  >
-                    <button
-                      data-testid="button-login"
-                      onClick={() => { setAction("login"); setStep("roles"); }}
-                      className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-sm hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-900/20 cursor-pointer"
-                    >
-                      {t("btnLogin")}
-                    </button>
-                    <button
-                      data-testid="button-register"
-                      onClick={() => { setAction("register"); setStep("roles"); }}
-                      className="w-full py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold text-sm hover:from-emerald-500 hover:to-teal-500 shadow-lg shadow-emerald-900/20 cursor-pointer"
-                    >
-                      {t("btnRegister")}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </GlassCard>
-
-            <div className="flex flex-col items-center gap-4 mt-8 opacity-60">
-              <div className="flex gap-4">
-                <div className="flex items-center gap-1.5 text-emerald-400 text-[10px] font-medium uppercase tracking-wider">
-                  <Fingerprint className="w-3.5 h-3.5" />
-                  {t("biometricSecure")}
+            <div className="cyber-card p-4 mb-6 relative overflow-hidden">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">स्वागत है</h3>
+                  <p className="text-slate-400 text-[10px]">आपका एक कदम, किसी की जिंदगी</p>
                 </div>
-                <div className="flex items-center gap-1.5 text-blue-400 text-[10px] font-medium uppercase tracking-wider">
-                  <Gavel className="w-3.5 h-3.5" />
-                  {t("dpdpCompliant")}
+                <div className="text-right border-l border-white/10 pl-4">
+                  <h3 className="text-lg font-bold text-white mb-1">WELCOME</h3>
+                  <p className="text-slate-400 text-[10px]">Your one step, Someone's life</p>
                 </div>
               </div>
-              <div className="text-[9px] text-slate-500 uppercase tracking-widest">{t("poweredBy")}</div>
+              <div className="mt-4 flex justify-between items-center text-slate-500 text-[10px]">
+                <span>स्वागतम्</span> <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                <span>मुआगउ है</span> <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                <span>झागठम</span>
+              </div>
+              <div className="flex justify-center gap-1.5 mt-4">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+              </div>
+              <div className="absolute right-2 bottom-2 opacity-20">
+                <svg className="w-16 h-8 text-[#FF1E27]" viewBox="0 0 100 40" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M 0 20 L 20 20 L 30 5 L 45 35 L 60 20 L 100 20" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 w-full mb-8">
+              <button
+                onClick={() => { setAction("register"); setStep("roles"); }}
+                className="w-full h-[52px] rounded-lg btn-red-solid text-white font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-2 hover:opacity-90 transition-opacity cursor-pointer shadow-[0_0_20px_rgba(255,30,39,0.3)]"
+              >
+                GET STARTED <ChevronRight className="w-5 h-5 ml-1" />
+              </button>
+              <button
+                onClick={() => { setAction("login"); setStep("roles"); }}
+                className="w-full h-[52px] rounded-lg btn-dark-border text-white font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                SIGN IN <ChevronRight className="w-5 h-5 ml-1" />
+              </button>
+            </div>
+
+            <div className="mt-auto grid grid-cols-4 gap-2 mb-6">
+              <TrustBadge icon={<Shield className="w-4 h-4" />} label="SECURE" />
+              <TrustBadge icon={<Lock className="w-4 h-4" />} label="PRIVATE" />
+              <TrustBadge icon={<Network className="w-4 h-4" />} label="VERIFIED" />
+              <TrustBadge icon={<Bell className="w-4 h-4" />} label="ALERTS" />
+            </div>
+
+            <div className="text-center pb-4 space-y-1">
+              <div className="text-[10px] text-slate-500 uppercase tracking-widest">Powered by SMART STAR SOLUTIONS</div>
+              <div className="text-[9px] text-slate-600">Building a healthier, stronger India. Version 1.0.0</div>
             </div>
           </motion.div>
         )}
@@ -344,30 +365,26 @@ export default function GatewayPage() {
   );
 }
 
-function RoleCard({ icon, title, desc, color, onClick }: { icon: React.ReactNode, title: string, desc: string, color: 'red' | 'blue' | 'amber' | 'purple', onClick: () => void }) {
-  const colorMap = {
-    red:    { text: "text-red-400",    hover: "group-hover:border-red-500/50",    bg: "bg-red-500/10"    },
-    blue:   { text: "text-blue-400",   hover: "group-hover:border-blue-500/50",   bg: "bg-blue-500/10"   },
-    amber:  { text: "text-amber-400",  hover: "group-hover:border-amber-500/50",  bg: "bg-amber-500/10"  },
-    purple: { text: "text-purple-400", hover: "group-hover:border-purple-500/50", bg: "bg-purple-500/10" },
-  };
-
-  const c = colorMap[color];
-
+function RoleCard({ title, desc, onClick }: { title: string, desc: string, onClick: () => void }) {
   return (
     <button
-      data-testid={`button-role-${color}`}
       onClick={onClick}
-      className={`group text-left p-4 rounded-xl glass-card transition-all duration-300 flex items-center gap-4 ${c.hover} cursor-pointer`}
+      className="w-full text-left p-4 cyber-card hover:bg-white/5 transition-all duration-300 flex items-center justify-between cursor-pointer border-[#00D2FF]/20 group"
     >
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${c.bg} ${c.text}`}>
-        {icon}
+      <div>
+        <h4 className="text-white font-bold text-sm tracking-wide group-hover:text-[#00D2FF] transition-colors">{title}</h4>
+        <p className="text-slate-400 text-xs mt-1">{desc}</p>
       </div>
-      <div className="flex-1">
-        <h4 className="text-white font-semibold text-sm">{title}</h4>
-        <p className="text-slate-400 text-xs mt-0.5">{desc}</p>
-      </div>
-      <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
+      <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-[#00D2FF] transition-colors" />
     </button>
+  );
+}
+
+function TrustBadge({ icon, label }: { icon: React.ReactNode, label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-1.5 opacity-70">
+      <div className="text-[#00D2FF]">{icon}</div>
+      <span className="text-[8px] text-white font-bold tracking-wider">{label}</span>
+    </div>
   );
 }

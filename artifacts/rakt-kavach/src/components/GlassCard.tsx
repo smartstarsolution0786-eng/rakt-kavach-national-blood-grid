@@ -6,7 +6,7 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 export function GlassCard({ className, ...props }: GlassCardProps) {
   return (
     <div
-      className={cn("glass-card rounded-xl p-6", className)}
+      className={cn("cyber-card rounded-xl p-5", className)}
       {...props}
     />
   );

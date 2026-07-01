@@ -1,0 +1,20 @@
+CRITICAL UI OVERHAUL REQUIRED: RESET AND BUILD ACCORDING TO THESE EXACT VISUAL BENCHMARKS. DO NOT USE DEFAULTS.
+
+1. EXACT COLOR PALETTE & GLASSMORPHISM:
+   - Background: Pure cyber dark slate (#020613 to #071126 linear gradient).
+   - Accents: Neon Rakt Red (#FF1E27) and Electric Neon Blue (#00D2FF) for glowing states, buttons, and borders.
+   - Cards: Semi-transparent dark glassmorphism (rgba(5, 15, 35, 0.75)) with a very thin, sharp inner border (1px solid rgba(0, 210, 255, 0.15)) and subtle outer drop-shadow glow.
+
+2. LOG IN & GATEWAY RE-STYLING (SCREEN 1 & 2):
+   - Match the central glowing shield architecture with the Rakt Kavach drop logo.
+   - Buttons for "GET STARTED" and "SIGN IN" must be full-width, sleek, with a solid gradient red/dark finish matching the official UI references.
+
+3. DIGITAL BLOOD WALLET DASHBOARD (SCREEN 3) - EXACT LAYOUT:
+   - Top Card: "DIGITAL DONOR CARD" with Donor Name: NAVDEEP KUMAR, Donor ID: RKTK-7X9P-2D4F, Blood Group: O+, and a Red-Glowing "SMART QR • SECURE • VERIFIED" container box on the right.
+   - Credit Balance Card: Large fluid red blood drop icon on the left, displaying "1.00 CREDITS" (Strictly set to 1.00 for ground-level demo reality) with text "1 CREDIT = 1 UNIT OF BLOOD". Include a subtle pulse/heartbeat line graphic on the right side of the card.
+   - Quick Actions Grid: 4 neatly aligned icons below the balance card: History, Requests, Certificates, Rewards (using clean white/red outlines on dark circular bases).
+   - Transfer Section: "TRANSFER BLOOD CREDIT" form with fields "FROM: My Wallet" and "TO: Select Recipient", an input box for Credits, and a high-visibility "TRANSFER NOW →" button in deep solid red.
+   - Biometric Layer: Bottom section must display the blue-glowing circular Fingerprint Identity scanner icon labeled "LOGIN WITH BIOMETRIC - Secure Access".
+
+4. EXECUTION INSTRUCTION:
+   Apply these styling parameters across the entire index.html code right now. Ensure the single-page application flow transitions beautifully from Gateway to the OTP/Verification and finally onto this ultra-premium Digital Wallet Dashboard. Do not break the layout on mobile previews. Update the complete code file now.

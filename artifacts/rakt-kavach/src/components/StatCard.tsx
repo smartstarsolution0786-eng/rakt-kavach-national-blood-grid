@@ -11,7 +11,7 @@ interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function StatCard({ label, value, icon, className, valueClassName, ...props }: StatCardProps) {
   return (
-    <GlassCard className={cn("p-4 flex flex-col gap-2", className)} {...props}>
+    <GlassCard className={cn("cyber-card p-4 flex flex-col gap-2", className)} {...props}>
       <div className="flex items-center justify-between text-slate-400 text-xs uppercase tracking-wider font-semibold">
         {label}
         {icon && <span className="text-slate-500">{icon}</span>}
