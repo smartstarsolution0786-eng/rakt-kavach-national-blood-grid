@@ -1,10 +1,33 @@
+import { useState } from "react";
 import { useLanguage } from "@/lib/language-context";
-import { motion } from "framer-motion";
-import { Shield, Droplet, Bell, TriangleAlert, BellRing, Users, Network, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Droplet, Bell, TriangleAlert, BellRing, Users, Network, Menu, Zap, CheckCircle2, Clock, Lock } from "lucide-react";
 import { Link } from "wouter";
+import { eventBus } from "@/lib/eventBus";
+import { nodeIds } from "@/lib/nodeIds";
+
+type EmergencyStep = 0 | 1 | 2 | 3;
+const AUTH_NODE = nodeIds.authority();
 
 export default function AuthorityDashboard() {
   const { t } = useLanguage();
+  const [emergencyStep, setEmergencyStep] = useState<EmergencyStep>(0);
+  const [broadcastDone, setBroadcastDone] = useState(false);
+
+  const advanceEmergency = (step: EmergencyStep) => {
+    setEmergencyStep(step);
+    if (step === 1) {
+      eventBus.publish({ type: "EMERGENCY_REQUEST", nodeId: AUTH_NODE, payload: { source: "State", bloodType: "O-", urgency: "CRITICAL" } });
+    } else if (step === 2) {
+      eventBus.publish({ type: "NATIONAL_VALIDATE", nodeId: AUTH_NODE, payload: { validated: true } });
+    } else if (step === 3) {
+      eventBus.publish({ type: "WHO_APPROVE", nodeId: "WHO-IN-007", payload: { approved: true } });
+      setTimeout(() => {
+        eventBus.publish({ type: "EMERGENCY_BROADCAST", nodeId: AUTH_NODE, payload: { nodes: 12847, bloodType: "O-" } });
+        setBroadcastDone(true);
+      }, 1200);
+    }
+  };
 
   const bloodTypes = [
     { type: "O+", pct: 26 }, { type: "A+", pct: 24 }, { type: "B+", pct: 17 },
@@ -279,6 +302,70 @@ export default function AuthorityDashboard() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Multi-Signature Emergency Protocol */}
+        <div className="rounded-xl p-4 flex flex-col gap-3" style={{ background: "rgba(255,30,39,0.05)", border: "1px solid rgba(255,30,39,0.25)", boxShadow: "0 0 24px rgba(255,30,39,0.06)" }}>
+          <div className="flex items-center justify-between">
+            <div className="text-[9px] font-bold tracking-widest" style={{ color: "#FF1E27" }}>MULTI-SIG EMERGENCY PROTOCOL</div>
+            <div className="text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.3)" }}>{AUTH_NODE}</div>
+          </div>
+          <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+            3-signature chain required before any broadcast. State → National → WHO.
+          </div>
+
+          {/* Steps */}
+          <div className="flex flex-col gap-2">
+            {[
+              { step: 1 as EmergencyStep, label: "STATE REQUEST", sublabel: "Raise emergency from state node", node: AUTH_NODE },
+              { step: 2 as EmergencyStep, label: "NATIONAL VALIDATION", sublabel: "National Authority verifies & forwards", node: "NATL-AUTH-001" },
+              { step: 3 as EmergencyStep, label: "WHO FINAL APPROVAL", sublabel: "WHO Supervisor grants broadcast rights", node: "WHO-IN-007" },
+            ].map(({ step, label, sublabel, node }) => {
+              const done = emergencyStep >= step;
+              const active = emergencyStep === step - 1;
+              return (
+                <div key={step} className="rounded-lg p-3 flex items-center gap-3"
+                  style={{ background: done ? "rgba(34,197,94,0.06)" : active ? "rgba(255,30,39,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${done ? "rgba(34,197,94,0.25)" : active ? "rgba(255,30,39,0.25)" : "rgba(255,255,255,0.06)"}` }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-black"
+                    style={{ background: done ? "rgba(34,197,94,0.12)" : active ? "rgba(255,30,39,0.12)" : "rgba(255,255,255,0.04)", border: `1px solid ${done ? "rgba(34,197,94,0.35)" : active ? "rgba(255,30,39,0.3)" : "rgba(255,255,255,0.08)"}`, color: done ? "#22c55e" : active ? "#FF1E27" : "rgba(255,255,255,0.25)" }}>
+                    {done ? "✔" : step}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[11px] font-black" style={{ color: done ? "#22c55e" : active ? "#FF1E27" : "rgba(255,255,255,0.3)" }}>{label}</div>
+                    <div className="text-[9px] font-mono mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{node}</div>
+                    <div className="text-[9px] mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{sublabel}</div>
+                  </div>
+                  {active && !broadcastDone && (
+                    <button onClick={() => advanceEmergency(step)}
+                      className="text-[10px] font-black px-3 py-2 rounded cursor-pointer transition-opacity hover:opacity-90 shrink-0 flex items-center gap-1"
+                      style={{ background: "rgba(255,30,39,0.15)", border: "1px solid rgba(255,30,39,0.4)", color: "#FF1E27" }}>
+                      <Zap className="w-3 h-3" /> SIGN
+                    </button>
+                  )}
+                  {done && <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: "#22c55e" }} />}
+                  {!done && !active && <Clock className="w-4 h-4 shrink-0" style={{ color: "rgba(255,255,255,0.15)" }} />}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Broadcast Result */}
+          <AnimatePresence>
+            {broadcastDone && (
+              <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                className="rounded-lg p-3 text-center" style={{ background: "rgba(255,30,39,0.1)", border: "1px solid rgba(255,30,39,0.35)" }}>
+                <div className="text-sm font-black" style={{ color: "#FF1E27" }}>🔴 EMERGENCY BROADCAST DISPATCHED</div>
+                <div className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Broadcast sent to 12,847 nodes · All 3 signatures verified</div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {emergencyStep === 0 && (
+            <div className="flex items-center gap-2 text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+              <Lock className="w-3 h-3" />
+              Broadcast locked until all 3 signatures collected
+            </div>
+          )}
         </div>
 
         {/* Today's Summary */}
