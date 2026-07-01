@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/GlassCard";
 import { 
   Shield, Droplet, TriangleAlert, Menu, Globe, ChevronRight, ArrowLeft, 
-  ShieldCheck, Lock, Network, Bell
+  ShieldCheck, Lock, Network, Bell, Crown
 } from "lucide-react";
 import { useLocation } from "wouter";
 
@@ -234,6 +234,7 @@ export default function GatewayPage() {
               <RoleCard title={t("roleHospital")} desc={t("roleHospitalDesc")} onClick={() => handleRoleSelect("/hospital")} />
               <RoleCard title={t("roleLab")} desc={t("roleLabDesc")} onClick={() => handleRoleSelect("/lab")} />
               <RoleCard title={t("roleAuthority")} desc={t("roleAuthorityDesc")} onClick={() => handleRoleSelect("/authority")} />
+              <FounderRoleCard onClick={() => handleRoleSelect("/founder")} />
             </div>
           </motion.div>
         ) : (
@@ -376,6 +377,33 @@ function RoleCard({ title, desc, onClick }: { title: string, desc: string, onCli
         <p className="text-slate-400 text-xs mt-1">{desc}</p>
       </div>
       <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-[#00D2FF] transition-colors" />
+    </button>
+  );
+}
+
+function FounderRoleCard({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      data-testid="button-role-founder"
+      className="w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between cursor-pointer group"
+      style={{
+        background: "rgba(30,20,2,0.85)",
+        border: "1px solid rgba(244,196,48,0.3)",
+        boxShadow: "0 0 16px rgba(244,196,48,0.06)"
+      }}
+    >
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+          style={{ background: "rgba(244,196,48,0.1)", border: "1px solid rgba(244,196,48,0.3)" }}>
+          <Crown className="w-5 h-5" style={{ color: "#F4C430" }} />
+        </div>
+        <div>
+          <h4 className="font-black text-sm tracking-wide" style={{ color: "#F4C430" }}>SUPER ADMIN / FOUNDER</h4>
+          <p className="text-xs mt-0.5" style={{ color: "rgba(244,196,48,0.5)" }}>Supreme authority — all nodes, WHO oversight</p>
+        </div>
+      </div>
+      <ChevronRight className="w-5 h-5 transition-colors" style={{ color: "rgba(244,196,48,0.4)" }} />
     </button>
   );
 }

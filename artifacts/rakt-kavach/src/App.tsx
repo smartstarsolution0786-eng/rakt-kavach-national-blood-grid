@@ -9,6 +9,7 @@ import DonorDashboard from "@/pages/DonorDashboard";
 import HospitalDashboard from "@/pages/HospitalDashboard";
 import LabDashboard from "@/pages/LabDashboard";
 import AuthorityDashboard from "@/pages/AuthorityDashboard";
+import FounderDashboard from "@/pages/FounderDashboard";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/hospital" component={HospitalDashboard} />
       <Route path="/lab" component={LabDashboard} />
       <Route path="/authority" component={AuthorityDashboard} />
+      <Route path="/founder" component={FounderDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
