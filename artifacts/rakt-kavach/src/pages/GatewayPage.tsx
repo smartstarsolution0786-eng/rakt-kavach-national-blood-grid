@@ -99,11 +99,17 @@ export default function GatewayPage() {
           <span className="text-slate-400 text-[10px]">One Nation • One Blood Grid</span>
         </div>
         <button 
-          onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+          onClick={() => {
+            const langs = ['en', 'hi', 'ta', 'bn', 'gu'] as const;
+            const idx = langs.indexOf(language as typeof langs[number]);
+            setLanguage(langs[(idx + 1) % langs.length]);
+          }}
           className="flex items-center gap-1.5 border border-white/20 rounded-full px-2 py-1 text-white hover:bg-white/10 transition-colors cursor-pointer"
         >
           <Globe className="w-3.5 h-3.5" />
-          <span className="text-[10px] font-bold uppercase">{language === 'en' ? 'EN' : 'HI'}</span>
+          <span className="text-[10px] font-bold uppercase">
+            {{ en: 'EN', hi: 'HI', ta: 'TA', bn: 'BN', gu: 'GU' }[language] ?? 'EN'}
+          </span>
         </button>
       </div>
 

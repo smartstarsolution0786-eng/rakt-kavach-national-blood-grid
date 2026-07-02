@@ -77,6 +77,22 @@ export default function AuthorityDashboard() {
         transition={{ duration: 0.35 }}
         className="flex-1 overflow-y-auto pb-8 px-4 pt-4 flex flex-col gap-4 max-w-2xl mx-auto w-full"
       >
+        {/* Compliance Status Row */}
+        <div className="rounded-xl px-3 py-2.5 flex flex-wrap items-center gap-2"
+          style={{ background: "rgba(0,210,255,0.04)", border: "1px solid rgba(0,210,255,0.12)" }}>
+          {[
+            { label: "National e-RaktKosh API", status: "LIVE SYNC", color: "#22c55e" },
+            { label: "ABHA/ABDM", status: "CONNECTED", color: "#22c55e" },
+            { label: "LOINC/SNOMED", status: "ACTIVE", color: "#00D2FF" },
+            { label: "DPDP Act 2023", status: "COMPLIANT", color: "#00D2FF" },
+          ].map(b => (
+            <div key={b.label} className="flex items-center gap-1 text-[8px] font-bold">
+              <span style={{ color: "rgba(255,255,255,0.35)" }}>{b.label}</span>
+              <span className="px-1.5 py-0.5 rounded" style={{ background: `${b.color}15`, color: b.color, border: `1px solid ${b.color}25` }}>● {b.status}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Page Title */}
         <div className="text-center py-2">
           <h1 className="text-2xl font-black tracking-tight">

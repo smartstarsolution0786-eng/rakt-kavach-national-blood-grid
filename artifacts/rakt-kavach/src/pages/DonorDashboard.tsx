@@ -3,15 +3,18 @@ import { useLanguage } from "@/lib/language-context";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Users, Droplet, Bell, User, ArrowLeftRight, Clock,
-  Gift, ShieldCheck, Fingerprint, X, Menu, Shield, TriangleAlert
+  Gift, ShieldCheck, Fingerprint, X, Menu, Shield, TriangleAlert,
+  ShieldAlert, Siren, Award, Trophy, ChevronRight, Wifi
 } from "lucide-react";
 import { Link } from "wouter";
+import AIGuardian from "@/components/AIGuardian";
 
 export default function DonorDashboard() {
   const { t } = useLanguage();
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
   const [transferCredits, setTransferCredits] = useState("1.00");
+  const [showAIGuardian, setShowAIGuardian] = useState(false);
 
   return (
     <div className="min-h-[100dvh] flex flex-col" style={{ background: "linear-gradient(180deg, #020613 0%, #071126 100%)", backgroundAttachment: "fixed" }}>
@@ -59,6 +62,11 @@ export default function DonorDashboard() {
         )}
       </AnimatePresence>
 
+      {/* AI Guardian Overlay */}
+      <AnimatePresence>
+        {showAIGuardian && <AIGuardian onClose={() => setShowAIGuardian(false)} />}
+      </AnimatePresence>
+
       {/* Sticky Header */}
       <div className="sticky top-0 z-30 w-full px-4 py-3 flex items-center justify-between" style={{ background: "rgba(2,6,19,0.95)", borderBottom: "1px solid rgba(0,210,255,0.1)", backdropFilter: "blur(12px)" }}>
         <button className="cursor-pointer" style={{ color: "rgba(255,255,255,0.5)" }}>
@@ -97,6 +105,23 @@ export default function DonorDashboard() {
         transition={{ duration: 0.35 }}
         className="flex-1 overflow-y-auto pb-24 px-4 pt-4 flex flex-col gap-4 max-w-sm mx-auto w-full"
       >
+        {/* e-RaktKosh / ABDM Compliance Banner */}
+        <div className="rounded-xl px-3 py-2.5 flex flex-wrap items-center gap-2"
+          style={{ background: "rgba(0,210,255,0.04)", border: "1px solid rgba(0,210,255,0.12)" }}>
+          <Wifi className="w-3 h-3 shrink-0" style={{ color: "#22c55e" }} />
+          {[
+            { label: "e-RaktKosh", status: "SYNCED", color: "#22c55e" },
+            { label: "ABDM", status: "CONNECTED", color: "#22c55e" },
+            { label: "LOINC", status: "ACTIVE", color: "#00D2FF" },
+            { label: "DPDP 2023", status: "COMPLIANT", color: "#00D2FF" },
+          ].map(b => (
+            <div key={b.label} className="flex items-center gap-1 text-[8px] font-bold tracking-wider">
+              <span style={{ color: "rgba(255,255,255,0.4)" }}>{b.label}</span>
+              <span className="px-1.5 py-0.5 rounded" style={{ background: `${b.color}15`, color: b.color, border: `1px solid ${b.color}30` }}>● {b.status}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Page Title */}
         <div className="text-center pt-1 pb-2">
           <h1 className="text-xl font-black text-white tracking-wide">
@@ -180,29 +205,71 @@ export default function DonorDashboard() {
           </button>
         </div>
 
+        {/* Raktveer Loyalty Rank */}
+        <div className="cyber-card p-4" style={{ borderLeft: "3px solid #F4C430" }}>
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-[9px] font-bold tracking-widest" style={{ color: "#F4C430" }}>RAKTVEER RANK — रक्तवीर</div>
+            <Trophy className="w-4 h-4" style={{ color: "#F4C430" }} />
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "rgba(205,127,50,0.15)", border: "2px solid rgba(205,127,50,0.5)", boxShadow: "0 0 16px rgba(205,127,50,0.2)" }}>
+              <Award className="w-7 h-7" style={{ color: "#CD7F32" }} />
+            </div>
+            <div className="flex-1">
+              <div className="font-black text-white tracking-wide">BRONZE TIER</div>
+              <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>1 verified donation · 2 more for Silver</div>
+              <div className="mt-2 relative h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                <div className="absolute left-0 top-0 h-full rounded-full transition-all duration-700"
+                  style={{ width: "33%", background: "linear-gradient(90deg, #CD7F32, #F4C430)" }} />
+              </div>
+              <div className="flex justify-between mt-1">
+                <span className="text-[8px]" style={{ color: "#CD7F32" }}>🥉 Bronze</span>
+                <span className="text-[8px]" style={{ color: "rgba(192,192,192,0.6)" }}>🥈 Silver (3)</span>
+                <span className="text-[8px]" style={{ color: "rgba(244,196,48,0.5)" }}>🥇 Gold (10)</span>
+              </div>
+            </div>
+          </div>
+          <div className="mt-3 rounded-lg p-2.5" style={{ background: "rgba(205,127,50,0.06)", border: "1px solid rgba(205,127,50,0.2)" }}>
+            <div className="text-[9px] font-bold" style={{ color: "#CD7F32" }}>💓 IMPACT: Your O+ donation (AIIMS Delhi) — Blood used in 2025 · Patient outcome: Positive</div>
+          </div>
+        </div>
+
         {/* Quick Actions */}
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {[
-            { icon: <Clock className="w-5 h-5" />, label: "History" },
-            { icon: <Droplet className="w-5 h-5" />, label: "Requests" },
-            { icon: <ShieldCheck className="w-5 h-5" />, label: "Certificates" },
-            { icon: <Gift className="w-5 h-5" />, label: "Rewards" },
+            { icon: <Clock className="w-5 h-5" />, label: "History", color: "#FF1E27", bg: "rgba(255,30,39,0.15)", border: "rgba(255,30,39,0.6)" },
+            { icon: <Droplet className="w-5 h-5" />, label: "Requests", color: "rgba(0,210,255,0.8)", bg: "rgba(5,15,35,0.8)", border: "rgba(0,210,255,0.3)" },
+            { icon: <ShieldCheck className="w-5 h-5" />, label: "Certs", color: "rgba(0,210,255,0.8)", bg: "rgba(5,15,35,0.8)", border: "rgba(0,210,255,0.3)" },
+            { icon: <Gift className="w-5 h-5" />, label: "Rewards", color: "rgba(0,210,255,0.8)", bg: "rgba(5,15,35,0.8)", border: "rgba(0,210,255,0.3)" },
           ].map((item, i) => (
             <button key={i} data-testid={`button-action-${item.label.toLowerCase()}`}
               className="flex flex-col items-center gap-2 cursor-pointer group"
               onClick={() => {}}>
               <div className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-105"
-                style={{
-                  background: i === 0 ? "rgba(255,30,39,0.15)" : "rgba(5,15,35,0.8)",
-                  border: i === 0 ? "1.5px solid rgba(255,30,39,0.6)" : "1.5px solid rgba(0,210,255,0.3)",
-                  color: i === 0 ? "#FF1E27" : "rgba(0,210,255,0.8)",
-                  boxShadow: i === 0 ? "0 0 10px rgba(255,30,39,0.2)" : "none"
-                }}>
+                style={{ background: item.bg, border: `1.5px solid ${item.border}`, color: item.color }}>
                 {item.icon}
               </div>
               <span className="text-[10px] font-bold text-white">{item.label}</span>
             </button>
           ))}
+          {/* SOS Button */}
+          <Link href="/sos" className="flex flex-col items-center gap-2 group">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-105 animate-pulse"
+              style={{ background: "rgba(255,30,39,0.18)", border: "1.5px solid rgba(255,30,39,0.7)", color: "#FF1E27", boxShadow: "0 0 12px rgba(255,30,39,0.25)" }}>
+              <Siren className="w-5 h-5" />
+            </div>
+            <span className="text-[10px] font-black" style={{ color: "#FF1E27" }}>SOS</span>
+          </Link>
+          {/* AI Guardian Button */}
+          <button onClick={() => setShowAIGuardian(true)}
+            className="flex flex-col items-center gap-2 cursor-pointer group">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-105"
+              style={{ background: "rgba(0,210,255,0.12)", border: "1.5px solid rgba(0,210,255,0.4)", color: "#00D2FF", boxShadow: "0 0 10px rgba(0,210,255,0.15)" }}>
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <span className="text-[10px] font-black" style={{ color: "#00D2FF" }}>AI Guard</span>
+          </button>
         </div>
 
         {/* Transfer Blood Credit */}
@@ -269,12 +336,12 @@ export default function DonorDashboard() {
             <h3 className="text-sm font-black text-white">EMERGENCY BLOOD REQUEST</h3>
             <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>Need Blood Urgently?</p>
           </div>
-          <button data-testid="button-emergency-request"
+          <Link href="/sos"
             className="btn-red-solid text-white font-black text-[10px] tracking-wide px-4 py-2.5 rounded-lg cursor-pointer hover:opacity-90 transition-opacity shrink-0 flex items-center gap-2"
             style={{ boxShadow: "0 0 20px rgba(255,30,39,0.5)" }}>
-            REQUEST NOW
+            SOS / HELP
             <TriangleAlert className="w-3.5 h-3.5 animate-pulse" />
-          </button>
+          </Link>
         </div>
 
         {/* Biometric Section */}

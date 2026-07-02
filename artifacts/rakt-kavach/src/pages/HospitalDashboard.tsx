@@ -3,7 +3,7 @@ import { useLanguage } from "@/lib/language-context";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Building2, AlertCircle, Droplets, Activity, RadioTower,
-  CheckCircle2, Clock, Bell, Menu, Shield, X
+  CheckCircle2, Clock, Bell, Menu, Shield, X, Wifi
 } from "lucide-react";
 import { Link } from "wouter";
 import { eventBus } from "@/lib/eventBus";
@@ -126,6 +126,15 @@ export default function HospitalDashboard() {
             </div>
             <div className="text-[9px] font-mono" style={{ color: "rgba(0,210,255,0.7)" }}>{NODE_ID}</div>
           </div>
+        </div>
+
+        {/* e-RaktKosh Sync Banner */}
+        <div className="rounded-xl px-3 py-2.5 flex flex-wrap items-center gap-2"
+          style={{ background: "rgba(0,210,255,0.04)", border: "1px solid rgba(0,210,255,0.12)" }}>
+          <Wifi className="w-3 h-3 shrink-0" style={{ color: "#22c55e" }} />
+          <span className="text-[9px] font-bold" style={{ color: "rgba(255,255,255,0.4)" }}>National e-RaktKosh API</span>
+          <span className="text-[8px] font-black px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.25)" }}>● LIVE SYNC</span>
+          <span className="text-[8px] font-bold ml-auto" style={{ color: "rgba(0,210,255,0.5)" }}>ABDM ✔ · LOINC ✔ · DPDP 2023 ✔</span>
         </div>
 
         {/* Stats */}
