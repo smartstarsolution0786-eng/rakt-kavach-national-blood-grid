@@ -405,10 +405,10 @@ export default function AuthorityDashboard() {
         {/* Timestamp + back */}
         <div className="flex items-center justify-between pt-1 pb-2">
           <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>16 May 2025 | 11:45:32 AM</div>
-          <Link href="/modules"
+          <Link href="/all-modules"
             className="text-[10px] font-black px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1.5"
             style={{ background: "rgba(0,210,255,0.08)", border: "1px solid rgba(0,210,255,0.2)", color: "#00D2FF" }}>
-            🔬 MODULES 86–100
+            🔬 ALL 100 MODULES
           </Link>
           <Link href="/" className="text-[10px] cursor-pointer transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.3)" }}>
             ← {t("back")}

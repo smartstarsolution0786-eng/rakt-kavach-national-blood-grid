@@ -12,6 +12,7 @@ import AuthorityDashboard from "@/pages/AuthorityDashboard";
 import FounderDashboard from "@/pages/FounderDashboard";
 import SOSPage from "@/pages/SOSPage";
 import AdvancedModulesPage from "@/pages/AdvancedModulesPage";
+import AllModulesPage from "@/pages/AllModulesPage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/founder" component={FounderDashboard} />
       <Route path="/sos" component={SOSPage} />
       <Route path="/modules" component={AdvancedModulesPage} />
+      <Route path="/all-modules" component={AllModulesPage} />
       <Route component={NotFound} />
     </Switch>
   );
