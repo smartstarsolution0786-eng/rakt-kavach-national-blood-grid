@@ -344,6 +344,42 @@ export default function DonorDashboard() {
           </Link>
         </div>
 
+        {/* Donor-Patient Impact Ledger */}
+        <div className="cyber-card p-4 flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-[9px] font-bold tracking-widest" style={{ color: "#00D2FF" }}>DONOR–PATIENT IMPACT LEDGER</div>
+              <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>Anonymized · DPDP Act 2023 Compliant</div>
+            </div>
+            <div className="text-[8px] px-2 py-1 rounded font-bold" style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.2)" }}>3 LIVES IMPACTED</div>
+          </div>
+          {[
+            { date: "Jun 2025", bloodType: "O+", hospital: "AIIMS Delhi", ward: "Trauma Ward", outcome: "Positive — Patient Discharged", vol: "450ml", caseId: "ANON-4X7K" },
+            { date: "Jan 2025", bloodType: "O+", hospital: "Safdarjung Hospital", ward: "Surgical ICU", outcome: "Positive — Surgery Successful", vol: "450ml", caseId: "ANON-9R2M" },
+            { date: "Aug 2024", bloodType: "O+", hospital: "RML Hospital Delhi", ward: "Maternity Ward", outcome: "Positive — Mother & Child Safe", vol: "450ml", caseId: "ANON-3J8W" },
+          ].map((entry, i) => (
+            <div key={i} className="rounded-xl p-3 flex flex-col gap-1.5"
+              style={{ background: "rgba(0,210,255,0.03)", border: "1px solid rgba(0,210,255,0.1)" }}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs" style={{ background: "rgba(255,30,39,0.15)", border: "1px solid rgba(255,30,39,0.3)" }}>🩸</div>
+                  <span className="text-[10px] font-black" style={{ color: "#FF6B6B" }}>{entry.bloodType}</span>
+                  <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>{entry.vol}</span>
+                </div>
+                <span className="text-[8px] font-mono" style={{ color: "rgba(255,255,255,0.2)" }}>{entry.caseId}</span>
+              </div>
+              <div className="text-[10px] font-bold text-white">{entry.hospital} <span className="font-normal" style={{ color: "rgba(255,255,255,0.4)" }}>· {entry.ward}</span></div>
+              <div className="flex items-center justify-between">
+                <div className="text-[9px] font-bold" style={{ color: "#22c55e" }}>✔ {entry.outcome}</div>
+                <div className="text-[8px]" style={{ color: "rgba(255,255,255,0.25)" }}>{entry.date}</div>
+              </div>
+            </div>
+          ))}
+          <div className="text-[8px] text-center pt-1" style={{ color: "rgba(255,255,255,0.2)" }}>
+            Patient identity fully anonymized. Case IDs are non-reversible. Data per DPDP Act 2023 § 8(7).
+          </div>
+        </div>
+
         {/* Biometric Section */}
         <div className="flex flex-col items-center gap-3 py-4">
           <div className="relative flex items-center justify-center">
