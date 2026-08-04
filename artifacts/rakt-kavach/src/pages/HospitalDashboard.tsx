@@ -3,13 +3,12 @@ import { useLanguage } from "@/lib/language-context";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Building2, AlertCircle, Droplets, Activity, RadioTower,
-  CheckCircle2, Clock, Bell, Menu, Shield, X, Wifi
+  CheckCircle2, Clock, Bell, Shield, X, Wifi
 } from "lucide-react";
 import { Link } from "wouter";
 import { eventBus } from "@/lib/eventBus";
-import { nodeIds } from "@/lib/nodeIds";
 
-const NODE_ID = nodeIds.hospital();
+const NODE_ID = "FTB-HOSP-01"; // फतेहाबाद सिविल हॉस्पिटल नोड
 
 const bloodInventory = [
   { type: "A+", count: 12 }, { type: "A-", count: 3 },
@@ -39,7 +38,7 @@ export default function HospitalDashboard() {
     eventBus.publish({
       type: "EMERGENCY_REQUEST",
       nodeId: NODE_ID,
-      payload: { bloodType: "O-", urgency: "CRITICAL", hospital: NODE_ID, city: "Delhi NCR" },
+      payload: { bloodType: "O-", urgency: "CRITICAL", hospital: "Civil Hospital", city: "Fatehabad, Haryana" },
     });
   };
 
@@ -78,26 +77,26 @@ export default function HospitalDashboard() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <AlertCircle className="w-5 h-5" style={{ color: "#FF1E27" }} />
-                  <span className="text-sm font-black text-white">EMERGENCY REQUEST</span>
+                  <span className="text-sm font-black text-white">आपातकालीन अनुरोध (SOS)</span>
                 </div>
                 <button onClick={() => setShowConfirm(false)} className="cursor-pointer" style={{ color: "rgba(255,255,255,0.4)" }}>
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
-                This will initiate a <strong className="text-white">Multi-Signature Emergency Protocol</strong>.<br /><br />
-                Step 1: Your request is sent to <strong className="text-white">National Authority</strong>.<br />
-                Step 2: National Authority validates and forwards to <strong className="text-white">WHO Supervisor</strong>.<br />
-                Step 3: WHO gives final approval → Emergency broadcast to grid.
+                यह एक्शन ग्रिड पर एक <strong className="text-white">मल्टी-सिग्नेचर प्रोटोकॉल</strong> शुरू करेगा।<br /><br />
+                स्टेप 1: आपका अनुरोध <strong className="text-white">फतेहाबाद हेड ऑफिस</strong> को जाएगा।<br />
+                Step 2: वहां से यह तुरंत <strong className="text-white">हरियाणा स्टेट ब्लड ग्रिड</strong> को ट्रांसफर होगा।<br />
+                Step 3: फाइनल वेरिफिकेशन होते ही पूरे जिला नेटवर्क में SOS अलर्ट जारी हो जाएगा।
               </p>
               <div className="rounded-lg p-3 text-[10px] font-mono" style={{ background: "rgba(255,30,39,0.06)", border: "1px solid rgba(255,30,39,0.2)" }}>
-                <span style={{ color: "#FF1E27" }}>REQUESTED:</span> <span className="text-white">O- Blood — CRITICAL</span><br />
-                <span style={{ color: "#00D2FF" }}>NODE:</span> <span className="text-white">{NODE_ID}</span>
+                <span style={{ color: "#FF1E27" }}>अनुरोध:</span> <span className="text-white">O- ब्लड — अति गंभीर</span><br />
+                <span style={{ color: "#00D2FF" }}>नोड:</span> <span className="text-white">{NODE_ID} (फतेहाबाद)</span>
               </div>
               <button onClick={handleEmergencyRequest}
                 className="w-full py-3 rounded-lg text-white font-black text-xs tracking-wider uppercase cursor-pointer transition-opacity hover:opacity-90"
                 style={{ background: "rgba(255,30,39,0.85)", border: "1px solid rgba(255,30,39,0.6)" }}>
-                CONFIRM — SEND EMERGENCY REQUEST
+                पुष्टि करें — आपातकालीन अलर्ट भेजें
               </button>
             </motion.div>
           </motion.div>
@@ -116,15 +115,14 @@ export default function HospitalDashboard() {
             <Building2 className="w-5 h-5" style={{ color: "#00D2FF" }} />
           </div>
           <div className="flex-1">
-            <div className="text-xs font-black text-white tracking-wider">APOLLO HOSPITAL</div>
-            <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>HOSP Node · Delhi NCR · Tier-1 Grid</div>
+            <div className="text-xs font-black text-white tracking-wider">नागरिक अस्पताल (Civil Hospital)</div>
+            <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>हॉस्पिटल नोड · फतेहाबाद, हरियाणा · डिस्ट्रिक्ट ग्रिड</div>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
             <div className="flex items-center gap-1.5 text-[9px] font-bold" style={{ color: "#22c55e" }}>
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              ONLINE
+              लाइव ऑनलाइन
             </div>
-            <div className="text-[9px] font-mono" style={{ color: "rgba(0,210,255,0.7)" }}>{NODE_ID}</div>
           </div>
         </div>
 
@@ -132,7 +130,7 @@ export default function HospitalDashboard() {
         <div className="rounded-xl px-3 py-2.5 flex flex-wrap items-center gap-2"
           style={{ background: "rgba(0,210,255,0.04)", border: "1px solid rgba(0,210,255,0.12)" }}>
           <Wifi className="w-3 h-3 shrink-0" style={{ color: "#22c55e" }} />
-          <span className="text-[9px] font-bold" style={{ color: "rgba(255,255,255,0.4)" }}>National e-RaktKosh API</span>
+          <span className="text-[9px] font-bold" style={{ color: "rgba(255,255,255,0.4)" }}>राष्ट्रीय ई-रक्तकोश API</span>
           <span className="text-[8px] font-black px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.25)" }}>● LIVE SYNC</span>
           <span className="text-[8px] font-bold ml-auto" style={{ color: "rgba(0,210,255,0.5)" }}>ABDM ✔ · LOINC ✔ · DPDP 2023 ✔</span>
         </div>
@@ -157,7 +155,7 @@ export default function HospitalDashboard() {
 
         {/* Blood Inventory */}
         <div className="cyber-card p-4">
-          <div className="text-[9px] font-bold tracking-widest mb-3" style={{ color: "#00D2FF" }}>{t("bloodInventory")}</div>
+          <div className="text-[9px] font-bold tracking-widest mb-3" style={{ color: "#00D2FF" }}>उपलब्ध स्टॉक (फतेहाबाद ब्लड बैंक)</div>
           <div className="grid grid-cols-4 gap-2">
             {bloodInventory.map(b => (
               <div key={b.type} className="flex flex-col items-center justify-center p-2 rounded-lg"
@@ -173,12 +171,12 @@ export default function HospitalDashboard() {
         {emergencyStep === "requested" && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
             className="rounded-xl p-4" style={{ background: "rgba(255,30,39,0.06)", border: "1px solid rgba(255,30,39,0.3)", boxShadow: "0 0 20px rgba(255,30,39,0.08)" }}>
-            <div className="text-[9px] font-bold tracking-widest mb-3" style={{ color: "#FF1E27" }}>MULTI-SIG EMERGENCY PROTOCOL — ACTIVE</div>
+            <div className="text-[9px] font-bold tracking-widest mb-3" style={{ color: "#FF1E27" }}>मल्टी-सिग इमरजेंसी प्रोटोकॉल — एक्टिव</div>
             <div className="flex flex-col gap-2">
               {[
-                { step: 1, label: "State Request Submitted", status: "done", node: NODE_ID },
-                { step: 2, label: "National Authority Validation", status: "pending", node: "NATL-AUTH" },
-                { step: 3, label: "WHO Final Approval", status: "waiting", node: "WHO-IN-007" },
+                { step: 1, label: "डिस्ट्रिक्ट नोड रिक्वेस्ट सबमिट", status: "done", node: NODE_ID },
+                { step: 2, label: "फतेहाबाद मुख्यालय वेरिफिकेशन", status: "pending", node: "FTB-HQ-01" },
+                { step: 3, label: "हरियाणा स्टेट ब्लड ग्रिड अप्रूवल", status: "waiting", node: "HR-STATE-GRID" },
               ].map(s => (
                 <div key={s.step} className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-black"
@@ -205,7 +203,7 @@ export default function HospitalDashboard() {
         {/* Event Feed */}
         {recentEvents.length > 0 && (
           <div className="rounded-xl p-3" style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(0,210,255,0.1)" }}>
-            <div className="text-[9px] font-bold tracking-widest mb-2" style={{ color: "#00D2FF" }}>LIVE EVENT BUS FEED</div>
+            <div className="text-[9px] font-bold tracking-widest mb-2" style={{ color: "#00D2FF" }}>लाइव इवेंट फीड</div>
             {recentEvents.map((e, i) => (
               <div key={i} className="text-[9px] font-mono py-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>{e}</div>
             ))}
@@ -223,7 +221,7 @@ export default function HospitalDashboard() {
             color: emergencyStep === "requested" ? "rgba(255,30,39,0.4)" : "#FF1E27",
           }}>
           <AlertCircle className="w-5 h-5" />
-          {emergencyStep === "requested" ? "EMERGENCY REQUEST PENDING..." : t("requestEmergency")}
+          {emergencyStep === "requested" ? "आपातकालीन अनुरोध पेंडिंग..." : "आपातकालीन ब्लड अनुरोध (SOS)"}
         </button>
       </motion.div>
     </div>

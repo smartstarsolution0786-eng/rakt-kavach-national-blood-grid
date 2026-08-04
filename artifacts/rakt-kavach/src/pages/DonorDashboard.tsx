@@ -137,7 +137,7 @@ export default function DonorDashboard() {
             <div className="flex flex-col gap-1 flex-1">
               <div className="text-lg font-black text-white tracking-wide">NAVDEEP KUMAR</div>
               <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>DONOR ID: RKTK-7X9P-2D4F</div>
-              <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>BLOOD GROUP: <span className="font-bold text-white">O+</span></div>
+              <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>BLOOD GROUP: <span className="font-bold text-white">AB+</span></div>
               <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>CITY: LUCKNOW, INDIA</div>
               <div className="flex items-center gap-1.5 mt-1">
                 <ShieldCheck className="w-3 h-3" style={{ color: "#22c55e" }} />
