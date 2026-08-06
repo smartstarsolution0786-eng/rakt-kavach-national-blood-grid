@@ -1,5 +1,4 @@
 name = "rakt-kavach-national-blood-grid"
 
 [env.production]
-# Cloudflare Pages build output configuration
 pages_build_output_dir = "artifacts/rakt-kavach/dist/public"
