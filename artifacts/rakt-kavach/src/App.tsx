@@ -39,11 +39,9 @@ function App() {
       <TooltipProvider>
         <LanguageProvider>
           <div className="min-h-screen bg-zinc-950 text-white relative">
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <WouterRouter base={import.meta.env.BASE_URL ? import.meta.env.BASE_URL.replace(/\/$/, "") : ""}>
               <Router />
             </WouterRouter>
-
-
           </div>
           <Toaster />
         </LanguageProvider>
