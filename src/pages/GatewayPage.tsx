@@ -12,7 +12,6 @@ type Step = "gateway" | "roles" | "abha-verify";
 
 export default function GatewayPage() {
   const { language, setLanguage, t } = useLanguage();
-  const [showModal, setShowModal] = useState(true);
   const [action, setAction] = useState<"login" | "register" | null>(null);
   const [step, setStep] = useState<Step>("gateway");
   const [abhaId, setAbhaId] = useState("");
@@ -74,7 +73,6 @@ export default function GatewayPage() {
                   <h2 className="text-lg font-bold text-white">{t("noticeTitle")}</h2>
                   <p className="text-sm text-slate-300 text-left leading-relaxed">{t("noticeBody")}</p>
                   <button
-                    onClick={() => setShowModal(false)}
                     className="mt-2 w-full py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs tracking-wider uppercase hover:from-blue-500 hover:to-indigo-500 transition-colors cursor-pointer"
                   >
                     {t("noticeUnderstand")}
