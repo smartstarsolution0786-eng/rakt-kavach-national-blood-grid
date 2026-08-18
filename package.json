@@ -79,5 +79,9 @@
     "vite": "*",
     "wouter": "^3.3.5",
     "zod": "*"
+  },
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=24.0.0"
   }
 }
