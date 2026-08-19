@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm run build",
-  "installCommand": "NPM_CONFIG_REGISTRY=https://npmjs.org pnpm install --no-frozen-lockfile",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "dist/public",
   "framework": "vite"
 }
