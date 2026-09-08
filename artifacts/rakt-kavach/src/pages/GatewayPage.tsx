@@ -3,7 +3,7 @@ import { useLanguage } from "@/lib/language-context";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/GlassCard";
 import { 
-  Shield, Droplet, TriangleAlert, Menu, Globe, ChevronRight, ArrowLeft, 
+  Shield, Droplet, Menu, Globe, ChevronRight, ArrowLeft, 
   ShieldCheck, Lock, Network, Bell, Crown
 } from "lucide-react";
 import { useLocation } from "wouter";
@@ -12,7 +12,6 @@ type Step = "gateway" | "roles" | "abha-verify";
 
 export default function GatewayPage() {
   const { language, setLanguage, t } = useLanguage();
-  const [showModal, setShowModal] = useState(true);
   const [action, setAction] = useState<"login" | "register" | null>(null);
   const [step, setStep] = useState<Step>("gateway");
   const [abhaId, setAbhaId] = useState("");
@@ -52,40 +51,6 @@ export default function GatewayPage() {
 
   return (
     <div className="min-h-[100dvh] flex flex-col items-center p-4 relative overflow-hidden">
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="max-w-sm w-full"
-            >
-              <GlassCard className="border-amber-500/30">
-                <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500">
-                    <TriangleAlert className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-lg font-bold text-white">{t("noticeTitle")}</h2>
-                  <p className="text-sm text-slate-300 text-left leading-relaxed">{t("noticeBody")}</p>
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="mt-2 w-full py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs tracking-wider uppercase hover:from-blue-500 hover:to-indigo-500 transition-colors cursor-pointer"
-                  >
-                    {t("noticeUnderstand")}
-                  </button>
-                </div>
-              </GlassCard>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="w-full max-w-sm flex items-center justify-between pt-2 pb-4">
         <button className="text-slate-400 hover:text-white transition-colors cursor-pointer">
           <Menu className="w-6 h-6" />
@@ -171,7 +136,7 @@ export default function GatewayPage() {
                   >
                     <div className="flex items-center gap-2 text-emerald-400 text-[11px] font-medium">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      {t("otpSentTo")} ···· 7823
+                      {t("otpSentTo")}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -324,8 +289,8 @@ export default function GatewayPage() {
               </div>
               <div className="mt-4 flex justify-between items-center text-slate-500 text-[10px]">
                 <span>स्वागतम्</span> <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                <span>मुआगउ है</span> <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                <span>झागठम</span>
+                <span>सुरक्षित</span> <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                <span>स्वस्थ</span>
               </div>
               <div className="flex justify-center gap-1.5 mt-4">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]"></div>

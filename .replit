@@ -1,4 +1,5 @@
 Modules = ["nodejs-24"]
+modules = ["nodejs-24"]
 
 [deployment]
 router = "application"
@@ -31,3 +32,6 @@ BASE_PATH = "/"
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
+
+[nix]
+channel = "stable-25_05"

@@ -1,102 +1,43 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowLeft, Wifi, Shield, Globe, Database, Activity, Radio,
-  Zap, Network, MapPin, Bell, Mic, Camera, Users, Layers,
-  AlertTriangle, CheckCircle2, ChevronRight, Server, GitBranch, 
-  Cpu, Volume2
-} from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Database, Link2, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
+import { PortalHeader, EmptyState, PrivacyNote } from "@/components/ProductionState";
 
-type ModuleStatus = "live" | "standby" | "prototype";
-
-interface ModuleCardProps {
-  num: number;
-  title: string;
-  tech: string;
-  status: ModuleStatus;
-  icon: React.ReactNode;
-  color: string;
-  children: React.ReactNode;
-}
-
-function ModuleCard({ num, title, tech, status, icon, color, children }: ModuleCardProps) {
-  const statusStyle = {
-    live: { color: "#22c55e", label: "● LIVE", bg: "rgba(34,197,94,0.1)", border: "rgba(34,197,94,0.25)" },
-    standby: { color: "#f59e0b", label: "◎ STANDBY", bg: "rgba(245,158,11,0.1)", border: "rgba(245,158,11,0.25)" },
-    prototype: { color: "#00D2FF", label: "◈ PROTOTYPE", bg: "rgba(0,210,255,0.1)", border: "rgba(0,210,255,0.25)" },
-  }[status];
-
-  return (
-    <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${color}20`, background: "rgba(2,6,19,0.85)" }}>
-      <div className="px-4 py-3 flex items-center justify-between" style={{ background: `${color}08`, borderBottom: `1px solid ${color}15` }}>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${color}15`, border: `1px solid ${color}30`, color }}>{icon}</div>
-          <div>
-            <div className="text-[8px] font-black tracking-widest" style={{ color: `${color}80` }}>MODULE {num}</div>
-            <div className="text-xs font-black text-white">{title}</div>
-          </div>
-        </div>
-        <span className="text-[8px] font-black px-2 py-1 rounded" style={{ background: statusStyle.bg, color: statusStyle.color, border: `1px solid ${statusStyle.border}` }}>{statusStyle.label}</span>
-      </div>
-      <div className="px-4 py-3 flex flex-col gap-2">
-        <div className="text-[8px] font-mono" style={{ color: `${color}60` }}>{tech}</div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// ... यहाँ से अपने बाकी के फंक्शंस (LiveRow, WebhookFeed, etc.) पहले जैसे ही रहने दें ...
-
-const GROUPS = [
-  {
-    title: "GROUP A — GOVERNMENT API INTEGRATION",
-    color: "#00D2FF",
-    modules: [
-      { num: 86, title: "e-RaktKosh Live Sync Hub", tech: "Govt e-RaktKosh REST API", icon: <Database className="w-4 h-4" />, color: "#22c55e", status: "prototype" as ModuleStatus, content: <div /> },
-      { num: 87, title: "ABHA Health ID Digital Gateway", tech: "ABDM M1/M2/M3 National API Bridges", icon: <Shield className="w-4 h-4" />, color: "#00D2FF", status: "prototype" as ModuleStatus, content: <div /> },
-      // ... आप अपने बाकी के 88-100 मॉड्यूल इसी फॉर्मेट में यहाँ डाल सकते हैं
-    ]
-  },
-  // यहाँ अपने अन्य ग्रुप्स डालें
-];
+const modules = [
+  ["86", "e-RaktKosh Live Sync Hub", "Government REST API"],
+  ["87", "ABHA Health ID Digital Gateway", "ABDM API"],
+  ["88", "OAuth2 Government Identity Bridge", "OAuth2 PKCE"],
+  ["89", "Udyam Enterprise Verification", "Government verification API"],
+  ["90", "Webhook Consent Manager", "Signed webhook receiver"],
+  ["91", "Village Health Worker Console", "Role-based intake"],
+  ["92", "District Aggregation Layer", "Privacy-preserving aggregation"],
+  ["93", "State Resource Grid", "State coordination service"],
+  ["94", "National Blood Grid", "gRPC service"],
+  ["95", "WHO FHIR Exchange", "FHIR / GraphQL"],
+  ["96", "Location Privacy Filter", "Consent-based geospatial service"],
+  ["97", "Custom Text Alert Input", "Sanitized realtime channel"],
+  ["98", "Event-Driven Broadcaster", "Partitioned messaging service"],
+  ["99", "Visual Camera Scanner", "WebRTC + approved model"],
+  ["100", "Voice-Guided Doctor", "Bhashini / TTS service"],
+] as const;
 
 export default function AdvancedModulesPage() {
-  const [activeGroup, setActiveGroup] = useState(0);
-
+  const [expanded, setExpanded] = useState<string | null>(null);
   return (
-    <div className="min-h-[100dvh] flex flex-col" style={{ background: "linear-gradient(180deg,#020613 0%,#030812 100%)" }}>
-      {/* Header code */}
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center justify-between" style={{ background: "rgba(2,6,19,0.97)", borderBottom: "1px solid rgba(0,210,255,0.12)" }}>
-        <Link href="/authority" style={{ color: "rgba(255,255,255,0.5)" }}><ArrowLeft className="w-5 h-5" /></Link>
-        <div className="text-center">
-          <div className="text-xs font-black tracking-widest text-white">ADVANCED MODULES</div>
-          <div className="text-[8px] tracking-wider" style={{ color: "rgba(0,210,255,0.5)" }}>1–100 · LIFESAVING TOOLKIT</div>
+    <div className="min-h-[100dvh] bg-[#020613] text-white">
+      <PortalHeader title="ADVANCED MODULES" subtitle="86–100 · CONNECTIONS REQUIRED" backHref="/authority" />
+      <main className="mx-auto flex max-w-3xl flex-col gap-4 px-4 pb-10 pt-4">
+        <div className="rounded-xl border border-cyan-300/15 bg-cyan-300/[0.04] p-4"><div className="flex items-center gap-3"><ShieldCheck className="h-6 w-6 text-cyan-300" /><div><h1 className="text-sm font-black">Production integration catalogue</h1><p className="mt-1 text-[10px] text-white/45">Every module is unconnected by default. No live status, fake payload, or sample record is shown.</p></div></div></div>
+        <EmptyState title="No integrations connected" body="Authorize each government, health, messaging, or AI provider before displaying its data." icon={<Link2 className="h-6 w-6" />} />
+        <div className="flex flex-col gap-2">
+          {modules.map(([num, title, tech]) => <button key={num} onClick={() => setExpanded(expanded === num ? null : num)} className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left transition hover:border-cyan-300/30">
+            <div className="flex items-center gap-3"><div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-300/10 text-xs font-black text-cyan-200">{num}</div><div className="flex-1"><div className="text-xs font-bold text-white">{title}</div><div className="mt-1 text-[9px] font-mono text-white/35">{tech}</div></div><ChevronDown className={`h-4 w-4 text-white/35 transition ${expanded === num ? "rotate-180" : ""}`} /></div>
+            {expanded === num && <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3 text-[10px] text-white/45"><Database className="h-3.5 w-3.5 text-cyan-300" /> Awaiting a verified production connector and consent policy.</div>}
+          </button>)}
         </div>
-        <div className="flex items-center gap-1 text-[8px] font-bold" style={{ color: "#22c55e" }}><Activity className="w-3 h-3" /> 100 MODULES</div>
-      </div>
-
-      {/* Group Tabs */}
-      <div className="flex overflow-x-auto px-4 py-2 gap-2 border-b border-white/5">
-        {GROUPS.map((g, i) => (
-          <button key={i} onClick={() => setActiveGroup(i)} className="shrink-0 text-[8px] font-black px-3 py-1.5 rounded-full"
-            style={{ background: activeGroup === i ? `${g.color}18` : "rgba(255,255,255,0.04)", border: `1px solid ${activeGroup === i ? g.color + "40" : "rgba(255,255,255,0.08)"}`, color: activeGroup === i ? g.color : "rgba(255,255,255,0.4)" }}>
-            {g.title.split("—")[0].trim()}
-          </button>
-        ))}
-      </div>
-
-      {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-4 pb-10 flex flex-col gap-4 pt-4">
-        <AnimatePresence mode="wait">
-          <motion.div key={activeGroup} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-4">
-            {GROUPS[activeGroup].modules.map(mod => (
-              <ModuleCard key={mod.num} {...mod} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+        <PrivacyNote>These labels describe integration boundaries only. No government, health, or AI service is represented as active until it returns verified data.</PrivacyNote>
+        <Link href="/all-modules" className="text-center text-[10px] font-bold text-cyan-300/60 hover:text-cyan-200">View all module positions →</Link>
+      </main>
     </div>
   );
 }
