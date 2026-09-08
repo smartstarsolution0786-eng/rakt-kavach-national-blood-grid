@@ -1,7 +1,4 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider } from "@/lib/language-context";
 import GatewayPage from "@/pages/GatewayPage";
@@ -13,8 +10,6 @@ import FounderDashboard from "@/pages/FounderDashboard";
 import SOSPage from "@/pages/SOSPage";
 import AdvancedModulesPage from "@/pages/AdvancedModulesPage";
 import AllModulesPage from "@/pages/AllModulesPage";
-
-const queryClient = new QueryClient();
 
 function Router() {
   return (
@@ -35,18 +30,13 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <LanguageProvider>
-          <div className="min-h-screen bg-zinc-950 text-white relative">
-            <WouterRouter base={import.meta.env.BASE_URL ? import.meta.env.BASE_URL.replace(/\/$/, "") : ""}>
-              <Router />
-            </WouterRouter>
-          </div>
-          <Toaster />
-        </LanguageProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <div className="min-h-screen bg-zinc-950 text-white relative">
+        <WouterRouter base={import.meta.env.BASE_URL ? import.meta.env.BASE_URL.replace(/\/$/, "") : ""}>
+          <Router />
+        </WouterRouter>
+      </div>
+    </LanguageProvider>
   );
 }
 

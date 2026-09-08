@@ -1,0 +1,1 @@
+- [Package installation quirks](package-install-quirks.md) — match the workspace pnpm version and use the local package firewall registry when installing.
