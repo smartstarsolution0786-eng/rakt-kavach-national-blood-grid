@@ -2,6 +2,7 @@
   "name": "रक्त कवच",
   "short_name": "रक्त कवच",
   "description": "Privacy-first blood and health coordination network.",
+  "id": "./",
   "lang": "hi",
   "dir": "ltr",
   "start_url": "./",
