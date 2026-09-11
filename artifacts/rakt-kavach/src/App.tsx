@@ -1,5 +1,5 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import NotFound from "@/pages/not-found";
+import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "@/lib/language-context";
 import GatewayPage from "@/pages/GatewayPage";
 import DonorDashboard from "@/pages/DonorDashboard";
