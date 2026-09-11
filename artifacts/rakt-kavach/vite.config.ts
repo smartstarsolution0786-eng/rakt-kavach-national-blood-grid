@@ -1,48 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import path from "path";
-
-// Handle environment variables with sensible defaults for Cloudflare Pages compatibility
-const rawPort = process.env.PORT || "5173";
-const basePath = process.env.BASE_PATH || "/";
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
+import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
-  base: basePath,
   plugins: [
     react(),
-    tailwindcss(),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
-    },
-    dedupe: ["react", "react-dom"],
-  },
-  root: path.resolve(import.meta.dirname),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    port,
-    strictPort: false,
-    host: "0.0.0.0",
-    allowedHosts: true,
-    fs: {
-      strict: false,
-    },
-  },
-  preview: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
-  },
+    VitePWA({
+      registerType: "autoUpdate",
+      manifest: {
+        name: "Rakt Kavach - National Blood Grid",
+        short_name: "RaktKavach",
+        theme_color: "#ffffff",
+        icons: [{ src: "icon-192.svg", sizes: "192x192", type: "image/svg+xml" }, { src: "icon-512.svg", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
+      }
+    })
+  ]
 });
