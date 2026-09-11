@@ -1,56 +1,24 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "include": [
-    "src/main.tsx",
-    "src/App.tsx",
-    "src/index.css",
-    "src/components/AIGuardian.tsx",
-    "src/components/GlassCard.tsx",
-    "src/components/ProductionState.tsx",
-    "src/lib/language-context.tsx",
-    "src/lib/translations.ts",
-    "src/lib/utils.ts",
-    "src/pages/GatewayPage.tsx",
-    "src/pages/DonorDashboard.tsx",
-    "src/pages/HospitalDashboard.tsx",
-    "src/pages/LabDashboard.tsx",
-    "src/pages/AuthorityDashboard.tsx",
-    "src/pages/FounderDashboard.tsx",
-    "src/pages/SOSPage.tsx",
-    "src/pages/AdvancedModulesPage.tsx",
-    "src/pages/AllModulesPage.tsx",
-    "src/pages/not-found.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    "**/*.test.ts"
-  ],
   "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo",
-    "noEmit": true,
-    "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable"
-    ],
-    "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
-    "types": [
-      "node",
-      "vite/client"
-    ],
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["src/*"]
     }
   },
-  "references": []
+  "include": ["src"]
 }

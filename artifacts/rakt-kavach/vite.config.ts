@@ -1,17 +1,12 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
 export default defineConfig({
-  plugins: [
-    react(),
-    VitePWA({
-      registerType: "autoUpdate",
-      manifest: {
-        name: "Rakt Kavach - National Blood Grid",
-        short_name: "RaktKavach",
-        theme_color: "#ffffff",
-        icons: [{ src: "icon-192.svg", sizes: "192x192", type: "image/svg+xml" }, { src: "icon-512.svg", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }]
-      }
-    })
-  ]
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 });
